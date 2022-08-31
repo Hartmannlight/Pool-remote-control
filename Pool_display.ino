@@ -1,9 +1,3 @@
-// TODO Dictionary
-// TODO Fix printBatteryState (wrong values because ESP32 internal resistor is too small)
-// TODO Check the battery state continuously
-// TODO Switch to better SSD1306 library
-// TODO Build new Version with
-
 // configs
 #include <WifiConfig.h>
 #include "Config.h"
@@ -29,7 +23,7 @@ Button2 leftButton;
 Button2 rightButton;
 SSD1306 display(0x3c, SDA, SCL);
 
-// state Variables
+// state variables
 int currentLocation = 4;      // State, which temperature is currently shown on the display
 unsigned long lastUpdate = 0; // counter: refresh displayed values every x ms
 
@@ -107,7 +101,7 @@ void printBatteryState()
   if (average <= BATTERY_SHUTDOWN_VALUE)
   {
     display.clear();
-    display.drawXbm(0, 0, 128, 64, icon_deathBattery);
+    display.drawXbm(0, 0, 128, 64, icon_deadBattery);
     display.display();
     delay(1500); // go to deep sleep instead
   }
@@ -207,4 +201,5 @@ void setFilterState(bool state)
     }
     http.end();
   }
+  printTemperature(currentLocation % numberOfStations);
 }
